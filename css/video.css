@@ -39,3 +39,6 @@
 #float .ctl{width:38px;height:38px;color:#fff8ec}
 #float .ctl.play{width:42px;height:42px;background:rgba(255,248,236,.18);box-shadow:none;color:#fff8ec}
 #float .ctl.play:active{transform:scale(.92);box-shadow:none}
+
+.hubx{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:60}
+.hubx[hidden]{display:none}

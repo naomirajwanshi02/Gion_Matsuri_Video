@@ -13,6 +13,12 @@ const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);
 const S = { phase: 'perm', inView: false };
 
+// Opened from the Scan to Watch hub (?from=hub): every cross goes back to its scan screen.
+const HUB = 'https://naomirajwanshi02.github.io/Scan_To_Watch/';
+const fromHub = q.has('from');
+const goHub = () => { try { video.pause(); } catch { /* fine */ } stopScan(); location.href = HUB; };
+const syncX = () => { const x = $('hubX'); if (x) x.hidden = !(fromHub && S.phase !== 'watch'); };
+
 const overlay = (id, on) => $(id).classList.toggle('on', on);
 const show = (id) => document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
 const buzz = (ms) => { try { navigator.vibrate?.(ms); } catch { /* no vibration */ } };
@@ -49,7 +55,7 @@ async function cameraGranted(){
   try { return (await navigator.permissions?.query({ name: 'camera' }))?.state === 'granted'; } catch { return false; }
 }
 async function openPerm(){
-  S.phase = 'perm';
+  S.phase = 'perm'; syncX();
   overlay('guide', false);
   if (await cameraGranted()) return openScan();
   if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia){
@@ -77,7 +83,7 @@ async function askCamera(){
 
 // ------------------------------------------------------------ 1 · find the picture
 async function openScan(){
-  S.phase = 'scan';
+  S.phase = 'scan'; syncX();
   show(null); overlay('hud', false); overlay('guide', true); placeVideo();
   $('scanRetry').hidden = true;
   if (scanning()){ $('scanStatus').textContent = 'Looking for the picture…'; return; }
@@ -106,7 +112,7 @@ function onLost(){ S.inView = false; if (S.phase === 'watch') placeVideo(); }
 
 // ------------------------------------------------------------ 2 · explanatory note
 function openIntro(){
-  S.phase = 'intro';
+  S.phase = 'intro'; syncX();
   overlay('guide', false);
   $('camStatus').textContent = '';
   show('intro');
@@ -127,7 +133,7 @@ async function begin(){
     }
   }
   $('goBtn').disabled = false;
-  S.phase = 'watch';
+  S.phase = 'watch'; syncX();
   show(null);
   overlay('hud', true);
   pop($('player'));
@@ -147,7 +153,8 @@ function setHint(){
 $('permBtn').addEventListener('click', askCamera);
 $('scanRetry').addEventListener('click', () => { stopScan(); openScan(); });
 $('goBtn').addEventListener('click', begin);
-$('closeBtn').addEventListener('click', () => { player.pause(); overlay('hud', false); openScan(); });
+$('closeBtn').addEventListener('click', () => { if (fromHub) return goHub(); player.pause(); overlay('hud', false); openScan(); });
+$('hubX').addEventListener('click', goHub);
 $('errBtn').addEventListener('click', () => { $('err').hidden = true; location.reload(); });
 
 // MindAR's own listeners can throw after a failed camera start; the screen already says what to do.
