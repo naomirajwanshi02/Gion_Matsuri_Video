@@ -146,7 +146,6 @@ function setHint(){
 // ------------------------------------------------------------ wiring
 $('permBtn').addEventListener('click', askCamera);
 $('scanRetry').addEventListener('click', () => { stopScan(); openScan(); });
-$('scanSkip').addEventListener('click', () => { stopScan(); overlay('guide', false); openIntro(); });
 $('goBtn').addEventListener('click', begin);
 $('closeBtn').addEventListener('click', () => { player.pause(); overlay('hud', false); openScan(); });
 $('errBtn').addEventListener('click', () => { $('err').hidden = true; location.reload(); });
