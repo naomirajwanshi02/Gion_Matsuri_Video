@@ -1,0 +1,41 @@
+/* Gion Matsuri Video: video-specific layout on top of app.css (Anatomy sepia). */
+
+/* the scan frame matches the picture (940 × 762) */
+.frame.tall{height:min(58vh,430px);aspect-ratio:690/1600;width:auto}
+
+/* HUD: only the hint + close button live here; the controls ride on the video itself */
+#hud{justify-content:flex-start;padding:calc(var(--safe-t) + 10px) 12px 0}
+.hud-top{justify-content:space-between;align-items:center;gap:10px;max-width:none}
+.hud-top .hint{flex:1;min-width:0;justify-content:flex-start}
+.hud-top .iconbtn{position:static;flex:none;pointer-events:auto}
+
+/* ---------- the video: takes most of the screen ---------- */
+.floatvid{position:fixed;z-index:12;left:50%;transform:translateX(-50%);
+  top:calc(var(--safe-t) + 58px);bottom:calc(var(--safe-b) + 10px);
+  width:min(calc(100vw - 16px),calc((100dvh - var(--safe-t) - var(--safe-b) - 68px) * 9 / 16));
+  padding:0;overflow:hidden;background:#1c120a;pointer-events:auto;animation:pop .35s var(--anatomy-ease)}
+.floatvid[hidden]{display:none}
+.floatvid video{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:cover;background:#1c120a}
+
+/* in AR the video is drawn on the picture by three.js: the element stays in place but unseen,
+   and only the controls remain, laid over the bottom of the screen */
+.floatvid.ghost{inset:0;transform:none;width:auto;background:none;box-shadow:none;border-radius:0;pointer-events:none;animation:none}
+.floatvid.ghost video{opacity:0;pointer-events:none}
+
+/* ---------- compact controls, superimposed on the bottom of the video ---------- */
+#float .player{position:absolute;left:8px;right:8px;bottom:8px;width:auto;max-width:none;margin:0;padding:6px 10px 4px;
+  background:linear-gradient(0deg,rgba(28,18,10,.78),rgba(28,18,10,.55));border-radius:12px;box-shadow:none;
+  display:flex;flex-direction:column;gap:0;pointer-events:auto;color:#fff8ec;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+#float.ghost .player{left:50%;right:auto;transform:translateX(-50%);width:min(calc(100vw - 24px),420px);bottom:calc(var(--safe-b) + 12px)}
+.seekrow{display:flex;align-items:center;gap:8px;font-family:var(--anatomy-mono);font-size:10.5px;color:#e8dcc4;letter-spacing:.02em}
+.seekrow span{flex:none;min-width:34px}
+.seekrow span:last-child{text-align:right}
+#float #seek{flex:1;min-width:0;height:18px;margin:0}
+#float #seek::-webkit-slider-runnable-track{height:3px;background:linear-gradient(90deg,#e9b44c var(--p),rgba(255,248,236,.35) var(--p))}
+#float #seek::-moz-range-track{height:3px;background:linear-gradient(90deg,#e9b44c var(--p),rgba(255,248,236,.35) var(--p))}
+#float #seek::-webkit-slider-thumb{width:12px;height:12px;margin-top:-4.5px;background:#fff8ec;border:0}
+#float #seek::-moz-range-thumb{width:12px;height:12px;background:#fff8ec;border:0}
+#float .controls{margin:0;gap:22px}
+#float .ctl{width:38px;height:38px;color:#fff8ec}
+#float .ctl.play{width:42px;height:42px;background:rgba(255,248,236,.18);box-shadow:none;color:#fff8ec}
+#float .ctl.play:active{transform:scale(.92);box-shadow:none}
