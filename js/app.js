@@ -140,7 +140,7 @@ async function begin(){
   placeVideo();
 }
 
-function setHint(){
+function setHint(){ return;
   const h = $('hint');
   if (S.phase !== 'watch'){ h.textContent = ''; return; }
   if (q.has('preview') || $('ar').classList.contains('preview')){ h.textContent = 'Watching without the camera'; h.classList.remove('live'); return; }
@@ -153,7 +153,7 @@ function setHint(){
 $('permBtn').addEventListener('click', askCamera);
 $('scanRetry').addEventListener('click', () => { stopScan(); openScan(); });
 $('goBtn').addEventListener('click', begin);
-$('closeBtn').addEventListener('click', () => { if (fromHub) return goHub(); player.pause(); overlay('hud', false); openScan(); });
+$('closeBtn').addEventListener('click', () => { if (fromHub) return goHub(); player.pause(); overlay('hud', false); openIntro(); });
 $('hubX').addEventListener('click', goHub);
 $('errBtn').addEventListener('click', () => { $('err').hidden = true; location.reload(); });
 
