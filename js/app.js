@@ -17,7 +17,7 @@ const S = { phase: 'perm', inView: false };
 const HUB = 'https://naomirajwanshi02.github.io/Scan_To_Watch/';
 const fromHub = q.has('from');
 const goHub = () => { try { video.pause(); } catch { /* fine */ } stopScan(); location.href = HUB; };
-const syncX = () => { const x = $('hubX'); if (x) x.hidden = !(fromHub && S.phase !== 'watch'); };
+const syncX = () => { const x = $('hubX'), x2 = $('hubX2'); if (x) x.hidden = !(fromHub && S.phase !== 'watch' && S.phase !== 'intro'); if (x2) x2.hidden = !(fromHub && S.phase === 'intro'); };
 
 const overlay = (id, on) => $(id).classList.toggle('on', on);
 const show = (id) => document.querySelectorAll('.screen').forEach((s) => s.classList.toggle('on', s.id === id));
@@ -155,6 +155,7 @@ $('scanRetry').addEventListener('click', () => { stopScan(); openScan(); });
 $('goBtn').addEventListener('click', begin);
 $('closeBtn').addEventListener('click', () => { if (fromHub) return goHub(); player.pause(); overlay('hud', false); openIntro(); });
 $('hubX').addEventListener('click', goHub);
+$('hubX2').addEventListener('click', goHub);
 $('errBtn').addEventListener('click', () => { $('err').hidden = true; location.reload(); });
 
 // MindAR's own listeners can throw after a failed camera start; the screen already says what to do.
