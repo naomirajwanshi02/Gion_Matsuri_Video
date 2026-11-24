@@ -43,8 +43,8 @@ const player = createPlayer(video, $);
 // While the picture is in view the video lives on it; otherwise it floats over the camera.
 function placeVideo(){
   const f = $('float');
-  const onPicture = scanning() && S.inView && S.phase === 'watch';
-  showVideoOnPicture(S.phase === 'watch');
+  const onPicture = false; // the video plays on its own, never anchored to the picture
+  showVideoOnPicture(false);
   f.hidden = S.phase !== 'watch';
   f.classList.toggle('ghost', onPicture);
   setHint();
@@ -123,7 +123,7 @@ async function begin(){
   $('goBtn').disabled = true;
   player.play();
   // if the camera is not running yet (skipped the picture), ask for it now
-  if (!scanning() && !q.has('preview') && !$('ar').querySelector('video')){
+  if (!scanning() && !q.has('preview') && !fromHub && !$('ar').querySelector('video')){
     try { await plainCamera($('ar')); }
     catch (err) {
       console.error(err);
@@ -165,6 +165,6 @@ addEventListener('unhandledrejection', (e) => { const s = e.reason?.stack || e.r
 
 window.__gion = { S, begin, video, player };
 
-if (q.has('preview')){ $('ar').classList.add('preview'); openIntro(); }
+if (q.has('preview') || fromHub){ $('ar').classList.add('preview'); openIntro(); }
 else if (q.has('demo')) openIntro();
 else openPerm();

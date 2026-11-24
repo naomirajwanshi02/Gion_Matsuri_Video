@@ -43,9 +43,9 @@
 .hubx{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:60}
 .hubx[hidden]{display:none}
 
-/* close: a plain cross, no circle */
-#closeBtn{background:none;box-shadow:none;border-radius:0;width:36px!important;height:36px!important;color:#fff8ec}
 .hubx{background:none!important;box-shadow:none!important;border-radius:0!important;width:36px!important;height:36px!important}
 #intro .welcome{position:relative}
 .panelx{position:absolute;top:8px;right:8px;width:36px;height:36px;border:0;background:none;color:var(--anatomy-strong);display:grid;place-items:center;cursor:pointer;padding:0}
 .panelx[hidden]{display:none}
+#closeBtn{margin-left:auto}
+.hud-top{width:100%;justify-content:flex-end}
