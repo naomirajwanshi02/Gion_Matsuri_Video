@@ -5,9 +5,9 @@
 // ?demo=1     skip the picture (camera still on, the video floats)
 // ?preview=1  no camera at all (the video floats on a plain backdrop)
 
-import { VIDEO_URL, VIDEO_FALLBACK } from './data.js';
-import { scan, stopScan, scanning, plainCamera, showVideoOnPicture } from './scan.js';
-import { createPlayer } from './player.js';
+import { VIDEO_URL, VIDEO_FALLBACK } from './data.js?v=3';
+import { scan, stopScan, scanning, plainCamera, showVideoOnPicture } from './scan.js?v=3';
+import { createPlayer } from './player.js?v=3';
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);
