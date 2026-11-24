@@ -39,7 +39,7 @@ export function createPlayer(video, $, { stepAt } = {}){
 
   const play = () => {
     if (video.ended) video.currentTime = 0;
-    return video.play().catch((e) => { console.warn(e); state(); });
+    return video.play().catch(() => { video.muted = true; return video.play(); }).catch((e) => { console.warn(e); state(); });
   };
   const pause = () => video.pause();
   const toggle = () => { if (video.paused || video.ended) play(); else pause(); };

@@ -5,9 +5,9 @@
 // ?demo=1     skip the picture (camera still on, the video floats)
 // ?preview=1  no camera at all (the video floats on a plain backdrop)
 
-import { VIDEO_URL, VIDEO_FALLBACK } from './data.js?v=3';
-import { scan, stopScan, scanning, plainCamera, showVideoOnPicture } from './scan.js?v=3';
-import { createPlayer } from './player.js?v=3';
+import { VIDEO_URL, VIDEO_FALLBACK } from './data.js?v=4';
+import { scan, stopScan, scanning, plainCamera, showVideoOnPicture } from './scan.js?v=4';
+import { createPlayer } from './player.js?v=4';
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);
@@ -27,7 +27,7 @@ const pop = (el) => { el.classList.remove('pop'); void el.offsetWidth; el.classL
 // ------------------------------------------------------------ the video
 // Played from the copy bundled in assets/.
 const video = $('vid');
-video.muted = true;               // the guide is silent; muted video may autoplay everywhere
+video.muted = false;           // sound on: the Start tap unlocks audio playback
 video.loop = false;
 let triedFallback = false;
 video.addEventListener('error', () => {
@@ -123,7 +123,7 @@ async function begin(){
   $('goBtn').disabled = true;
   player.play();
   // if the camera is not running yet (skipped the picture), ask for it now
-  if (!scanning() && !q.has('preview') && !fromHub && !$('ar').querySelector('video')){
+  if (!scanning() && !q.has('preview') && !$('ar').querySelector('video')){
     try { await plainCamera($('ar')); }
     catch (err) {
       console.error(err);
@@ -165,6 +165,6 @@ addEventListener('unhandledrejection', (e) => { const s = e.reason?.stack || e.r
 
 window.__gion = { S, begin, video, player };
 
-if (q.has('preview') || fromHub){ $('ar').classList.add('preview'); openIntro(); }
-else if (q.has('demo')) openIntro();
+if (q.has('preview')){ $('ar').classList.add('preview'); openIntro(); }
+else if (q.has('demo') || fromHub) openIntro();
 else openPerm();

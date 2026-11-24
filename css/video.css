@@ -49,3 +49,6 @@
 .panelx[hidden]{display:none}
 #closeBtn{margin-left:auto}
 .hud-top{width:100%;justify-content:flex-end}
+
+/* no backdrop: the video plays over the live camera */
+.floatvid,.floatvid video{background:none!important;box-shadow:none!important;border-radius:0!important}
